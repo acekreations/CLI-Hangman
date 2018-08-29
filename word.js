@@ -17,8 +17,23 @@ var Word = function(word){
     console.log("\n\n" + display + "\n\n");
   };
   this.checkGuess = function(guess){
+    var correct = false;
     for (var i = 0; i < this.letters.length; i++) {
-      this.letters[i].checkChar(guess);
+      if(this.letters[i].checkChar(guess)){
+        correct = true;
+      }
+    }
+    if (correct) {
+      console.log("-------------------------------------------------------");
+      console.log("\n\nGood guess!");
+      this.displayWord();
+      return true;
+    }
+    else {
+      console.log("-------------------------------------------------------");
+      console.log("\n\nNice try.");
+      this.displayWord();
+      return false;
     }
   };
 };
