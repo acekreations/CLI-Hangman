@@ -36,6 +36,14 @@ var Word = function(word){
       return false;
     }
   };
+  this.checkWin = function(){
+    for (var i = 0; i < this.letters.length; i++) {
+      if (this.letters[i].guessed === false) {
+        return false;
+      }
+    }
+    return true;
+  };
 };
 
 module.exports = Word;

@@ -4,12 +4,12 @@ var inq = require("inquirer");
 var wordList = ["corgi", "retriever", "bulldog", "boxer", "beagle", "pug", "dobermann", "akita"];
 
 var guessedLetters = [];
-var guessesLeft = 10;
+var guessesLeft = 7;
 
 function initializeGame() {
   console.log("Starting Game!");
   guessedLetters = [];
-  guessesLeft = 10;
+  guessesLeft = 7;
   var word = setWord();
   word.displayWord();
   playGame(word);
@@ -21,6 +21,23 @@ function setWord() {
   var word = new Word(wordSelction);
   word.addLetters(wordSelction);
   return word;
+}
+
+function playAgain() {
+  inq.prompt([
+    {
+      type: "confirm",
+      message: "Would you like to play again?",
+      name: "playAgain",
+    }
+  ]).then(function(res){
+    if (res.playAgain === true) {
+      initializeGame();
+    }
+    else {
+      console.log("Thanks for playing!");
+    }
+  });
 }
 
 function playGame(word) {
@@ -45,7 +62,15 @@ function playGame(word) {
       if (!word.checkGuess(res.guess)) {
         guessesLeft--;
       }
-      playGame(word);
+      if (word.checkWin()) {
+        console.log("-------------------------------------------------------");
+        console.log("You won!");
+        console.log("-------------------------------------------------------\n\n");
+        playAgain();
+      }
+      else {
+        playGame(word);
+      }
     });
 
   }
@@ -53,17 +78,9 @@ function playGame(word) {
     console.log("-------------------------------------------------------");
     console.log("Your out of guesses... The word was " + word.word + ".");
     console.log("-------------------------------------------------------\n\n");
+
+    playAgain();
   }
 }
 
 initializeGame();
-
-// test.displayWord();
-//
-// test.checkGuess("C");
-//
-// test.displayWord();
-//
-// test.checkGuess("a");
-//
-// test.displayWord();
